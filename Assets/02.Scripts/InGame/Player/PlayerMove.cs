@@ -4,19 +4,24 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
+    /// 일반 변수
     #region Variable
-    InputManager _inputManager = null;
+    InGameInput _inputManager = null;
     Rigidbody _rigid = null;
 
-    [SerializeField, Range(40f, 150.0f)]
+    /// <summary>
+    /// 이동 속도
+    /// </summary>
+    [SerializeField, Range(40f, 120.0f), Header("현재 캐릭터의 이동속도")]
     float _moveSpeed = 8.0f;
 
-    [SerializeField]
-    GameObject _playerObject = null;
-
+    /// <summary>
+    /// 현재 방향키의 상태
+    /// </summary>
     Vector2 _moveAxis { get { return _inputManager.MoveAxis; } }
     #endregion
 
+    /// MonoBehaviour 지원 함수
     #region Monobehaviour Function
 
     private void Awake()
@@ -31,12 +36,14 @@ public class PlayerMove : MonoBehaviour
     {
         if (_inputManager == null)
         {
-            _inputManager = GameManager.Instance.InputManager;
+            _inputManager = GameManager.Instance.InGameInput;
         }
     }
 
     private void FixedUpdate()
     {
+        if (_inputManager.CurMode != InGameInput.eInputMode.CharacterMode) return;
+
         _rigid.AddForce(new Vector3(_moveAxis.x, 0, _moveAxis.y).normalized * _moveSpeed);
     } 
     #endregion

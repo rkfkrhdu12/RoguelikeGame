@@ -13,10 +13,10 @@ using UnityEngine;
 namespace FoodCollectionSheet
 {
     [Hamster.ZG.Attribute.TableStruct]
-    public partial class Data : ITable
+    public partial class Food : ITable
     { 
 
-        public delegate void OnLoadedFromGoogleSheets(List<Data> loadedList, Dictionary<int, Data> loadedDictionary);
+        public delegate void OnLoadedFromGoogleSheets(List<Food> loadedList, Dictionary<int, Food> loadedDictionary);
 
         static bool isLoaded = false;
         static string spreadSheetID = "1qcybIn-e3gJCSQYG2aMqX7bgn4FGTS7H5Du7Mv28wtI"; // it is file id
@@ -24,23 +24,28 @@ namespace FoodCollectionSheet
         static UnityFileReader reader = new UnityFileReader();
 
 /* Your Loaded Data Storage. */
-        public static Dictionary<int, Data> DataMap = new Dictionary<int, Data>(); 
-        public static List<Data> DataList = new List<Data>();   
+        public static Dictionary<int, Food> FoodMap = new Dictionary<int, Food>(); 
+        public static List<Food> FoodList = new List<Food>();   
 
 /* Fields. */
 
 		public Int32 index;
 		public String name;
+		public Int32 sell;
+		public String material0Name;
+		public String material1Name;
+		public String material2Name;
+		public String material3Name;
   
 
 #region fuctions
 
 /*Write To GoogleSheet!*/
 
-        public static void Write(Data data, System.Action onWriteCallback = null)
+        public static void Write(Food data, System.Action onWriteCallback = null)
         { 
             TypeMap.Init();
-            FieldInfo[] fields = typeof(Data).GetFields(BindingFlags.Public | BindingFlags.Instance);
+            FieldInfo[] fields = typeof(Food).GetFields(BindingFlags.Public | BindingFlags.Instance);
             var datas = new string[fields.Length];
             for (int i = 0; i < fields.Length; i++)
             {
@@ -72,7 +77,7 @@ else
 
 /*Load Data From Google Sheet! Working fine with runtime&editor*/
 
-        public static void LoadFromGoogle(System.Action<List<Data>, Dictionary<int, Data>> onLoaded, bool updateCurrentData = false)
+        public static void LoadFromGoogle(System.Action<List<Food>, Dictionary<int, Food>> onLoaded, bool updateCurrentData = false)
         {      
             TypeMap.Init();
             IZGRequester webInstance = null;
@@ -91,20 +96,20 @@ else
 #endif
             if(updateCurrentData)
             {
-                DataMap?.Clear();
-                DataList?.Clear(); 
+                FoodMap?.Clear();
+                FoodList?.Clear(); 
             }
-            List<Data> callbackParamList = new List<Data>();
-            Dictionary<int,Data> callbackParamMap = new Dictionary<int, Data>();
+            List<Food> callbackParamList = new List<Food>();
+            Dictionary<int,Food> callbackParamMap = new Dictionary<int, Food>();
             webInstance.ReadGoogleSpreadSheet(spreadSheetID, (data, json) => {
-            FieldInfo[] fields = typeof(FoodCollectionSheet.Data).GetFields(BindingFlags.Public | BindingFlags.Instance);
+            FieldInfo[] fields = typeof(FoodCollectionSheet.Food).GetFields(BindingFlags.Public | BindingFlags.Instance);
             List<(string original, string propertyName, string type)> typeInfos = new List<(string,string,string)>();
             List<List<string>> typeValuesCList = new List<List<string>>(); 
               if (json != null)
                         {
                             var result = Newtonsoft.Json.JsonConvert.DeserializeObject<GetTableResult>(json);
                             var table= result.tableResult; 
-                            var sheet = table["Data"];
+                            var sheet = table["Food"];
                                 foreach (var pNameAndTypeName in sheet.Keys)
                                 {
                                     var split = pNameAndTypeName.Replace(" ", null).Split(':');
@@ -119,7 +124,7 @@ else
                                 int rows = typeValuesCList[0].Count;
                                 for (int i = 0; i < rows; i++)
                                 {
-                                    FoodCollectionSheet.Data instance = new FoodCollectionSheet.Data();
+                                    FoodCollectionSheet.Food instance = new FoodCollectionSheet.Food();
                                     for (int j = 0; j < typeInfos.Count; j++)
                                     {
                                        try
@@ -143,8 +148,8 @@ else
                                     callbackParamMap .Add(instance.index, instance);
                                     if(updateCurrentData)
                                     {
-                                       DataList.Add(instance);
-                                       DataMap.Add(instance.index, instance);
+                                       FoodList.Add(instance);
+                                       FoodMap.Add(instance.index, instance);
                                     }
                                 } 
                             }
@@ -162,16 +167,16 @@ else
         {
             if(isLoaded && forceReload == false)
             {
-                 Debug.Log("Data is already loaded! if you want reload then, forceReload parameter set true");
+                 Debug.Log("Food is already loaded! if you want reload then, forceReload parameter set true");
                  return;
             }
             /* Clear When Try Load */
-            DataMap?.Clear();
-            DataList?.Clear(); 
+            FoodMap?.Clear();
+            FoodList?.Clear(); 
             //Type Map Init
             TypeMap.Init();
             //Reflection Field Datas.
-            FieldInfo[] fields = typeof(FoodCollectionSheet.Data).GetFields(BindingFlags.Public | BindingFlags.Instance);
+            FieldInfo[] fields = typeof(FoodCollectionSheet.Food).GetFields(BindingFlags.Public | BindingFlags.Instance);
             List<(string original, string propertyName, string type)> typeInfos = new List<(string,string,string)>();
             List<List<string>> typeValuesCList = new List<List<string>>(); 
             //Load GameData.
@@ -180,7 +185,7 @@ else
             {
                 var result = Newtonsoft.Json.JsonConvert.DeserializeObject<GetTableResult>(text);
                 var table= result.tableResult; 
-                var sheet = table["Data"];
+                var sheet = table["Food"];
                     foreach (var pNameAndTypeName in sheet.Keys)
                     {
                         var split = pNameAndTypeName.Replace(" ", null).Split(':');
@@ -195,7 +200,7 @@ else
                             int rows = typeValuesCList[0].Count;
                             for (int i = 0; i < rows; i++)
                             {
-                                FoodCollectionSheet.Data instance = new FoodCollectionSheet.Data();
+                                FoodCollectionSheet.Food instance = new FoodCollectionSheet.Food();
                                 for (int j = 0; j < typeInfos.Count; j++)
                                 {
                                     try{
@@ -215,8 +220,8 @@ else
                               }
 
                          //Add Data to Container
-                        DataList.Add(instance);
-                        DataMap.Add(instance.index, instance);
+                        FoodList.Add(instance);
+                        FoodMap.Add(instance.index, instance);
                   
                        
                          } 

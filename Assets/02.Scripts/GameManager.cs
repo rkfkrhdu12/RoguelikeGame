@@ -14,8 +14,17 @@ public class GameManager
     /// <summary>
     /// 입력 관련 매니저
     /// </summary>
-    public InputManager InputManager { get { return _inputManager; } set { if (_inputManager == null) { _inputManager = value; } } }
-    private InputManager _inputManager = null;
+    public InGameInput InGameInput { get { return _inGameInput; } set { if (_inGameInput == null) { _inGameInput = value; } } }
+    private InGameInput _inGameInput = null;
+
+    public SceneController SceneController { get { return _sceneController; } }
+    private SceneController _sceneController = null;
+
+    private static void Init()
+    {
+        _instance = new GameManager();
+        _instance._sceneController = new SceneController();
+    }
 
     /// SingleTon
     #region Static Variable
@@ -25,7 +34,7 @@ public class GameManager
     {
         get
         {
-            if (_instance == null) _instance = new GameManager();
+            if (_instance == null) Init();
 
             return _instance;
         }

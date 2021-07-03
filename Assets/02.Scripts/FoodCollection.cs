@@ -11,7 +11,7 @@ public class FoodCollection : MonoBehaviour
     {
         if (!_collectFoods.ContainsKey(foodName))
         {
-            _collectFoods.Add(foodName, _allFoods[foodName]);
+            AddCollectFoods(foodName, _allFoods[foodName]);
 
             UpdateSerializeData();
         }
@@ -21,12 +21,11 @@ public class FoodCollection : MonoBehaviour
     #region Serialize Variables
 
 #if UNITY_EDITOR
-    [SerializeField]
-    List<string> _sAllFoods = new List<string>();
+    [SerializeField, Header("모든 음식컬렉션")]
+    List<CollectFood> _sAllFoods = new List<CollectFood>();
 
-    [SerializeField]
-    List<string> _sCollectFoods = new List<string>();
-
+    [SerializeField, Header("수집된 음식컬렉션")]
+    List<CollectFood> _sCollectFoods = new List<CollectFood>();
 #endif
     #endregion
 
@@ -37,32 +36,52 @@ public class FoodCollection : MonoBehaviour
     /// 전체 컬렉션
     /// </summary>
     Dictionary<string, CollectFood> _allFoods = new Dictionary<string, CollectFood>();
+    Dictionary<int, CollectFood> _allFoodsCode = new Dictionary<int, CollectFood>();
+
+    public Dictionary<string, CollectFood> AllFoods { get { return _allFoods; } }
+    public Dictionary<int, CollectFood> AllFoodsCode { get { return _allFoodsCode; } }
 
     /// <summary>
     /// 수집한 컬렉션
     /// </summary>
     Dictionary<string, CollectFood> _collectFoods = new Dictionary<string, CollectFood>();
+    Dictionary<int, CollectFood> _collectFoodsCode = new Dictionary<int, CollectFood>();
+
+    public Dictionary<string, CollectFood> CollectFoods { get { return _collectFoods; } }
+    public Dictionary<int, CollectFood> CollectFoodsCode { get { return _collectFoodsCode; } }
+
+    ////////////////////////////////////////////////////////////////////////////////////////
+    /// <summary>
+    /// 남은 컬렉션
+    /// </summary>
+    Dictionary<string, CollectFood> _remainFoods = new Dictionary<string, CollectFood>();
+    Dictionary<int, CollectFood> _remainFoodsCode = new Dictionary<int, CollectFood>();
+
+    public Dictionary<string, CollectFood> RemainFoods { get { return _remainFoods; } }
+    public Dictionary<int, CollectFood> RemainFoodsCode { get { return _remainFoodsCode; } }
+    //////////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// 모든 재료
+    /// </summary>
+    Dictionary<string, FoodMaterial> _materials = new Dictionary<string, FoodMaterial>();
+    Dictionary<int, FoodMaterial> _materialsCode = new Dictionary<int, FoodMaterial>();
+
+    public Dictionary<string, FoodMaterial> FoodMaterials { get { return _materials; } }
+    public Dictionary<int, FoodMaterial> FoodMaterialsCode { get { return _materialsCode; } }
+
     #endregion
 
     /// MonoBehaviour 지원 함수
     #region MonoBehaviour Functions
-
     void Awake()
     {
         GameManager.Instance.FoodCollection = this;
 
         DontDestroyOnLoad(gameObject);
 
-        UnityGoogleSheet.Load<FoodCollectionSheet.Data>();
-
-        foreach (var line in FoodCollectionSheet.Data.DataList)
-        {
-            CollectFood newData = new CollectFood();
-            newData.index = line.index;
-            newData.name = line.name;
-
-            _allFoods.Add(line.name, newData);
-        }
+        InitMaterials();
+        InitFoods();
 
         #region Serialize Variable
 
@@ -76,6 +95,93 @@ public class FoodCollection : MonoBehaviour
     /// Private 함수
     #region Private Functions
 
+    /// 재료 Init
+    private void InitMaterials()
+    {
+        UnityGoogleSheet.Load<FoodCollectionSheet.Material>();
+
+        foreach (var line in FoodCollectionSheet.Material.MaterialList)
+        {
+            if (_materials.ContainsKey(line.name)) continue;
+
+            FoodMaterial newData = new FoodMaterial
+            {
+                name = line.name,
+                index = line.index,
+                sellPrice = line.sell,
+            };
+
+            AddMaterial(newData);
+        }
+    }
+
+    /// 음식 Init
+    private void InitFoods()
+    {
+        UnityGoogleSheet.Load<FoodCollectionSheet.Food>();
+
+        foreach (var line in FoodCollectionSheet.Food.FoodList)
+        {
+            if (_allFoods.ContainsKey(line.name)) continue;
+
+            CollectFood newData = new CollectFood
+            {
+                name = line.name,
+                index = line.index,
+                sellPrice = line.sell,
+
+                materials = new List<FoodMaterial>(),
+            };
+
+            if (InitFoodsMaterials(line.material0Name, newData))
+                if (InitFoodsMaterials(line.material1Name, newData))
+                    if (InitFoodsMaterials(line.material2Name, newData))
+                        if (InitFoodsMaterials(line.material3Name, newData)) ;
+
+            AddAllFoods(line.name, newData);
+        }
+    }
+
+    /// 음식에 재료 Init
+    bool InitFoodsMaterials(string matName, CollectFood newData)
+    {
+        if (!string.IsNullOrWhiteSpace(matName) && _materials.ContainsKey(matName))
+        {
+            FoodMaterial foodMaterial = _materials[matName];
+            newData.materials.Add(foodMaterial);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private void AddAllFoods(string key, CollectFood value)
+    {
+        _allFoods.Add(key, value);
+        AllFoodsCode.Add(value.index, value);
+
+        /////////////////////////////////////////
+        _remainFoods.Add(key, value);
+        _remainFoodsCode.Add(value.index, value);
+    }
+
+    private void AddCollectFoods(string key, CollectFood value)
+    {
+        _collectFoods.Add(key, value);
+        _collectFoodsCode.Add(value.index, value);
+
+        /////////////////////////////////////
+        _remainFoods.Remove(key);
+        _remainFoodsCode.Remove(value.index);
+    }
+
+    private void AddMaterial(FoodMaterial value)
+    {
+        _materials.Add(value.name, value);
+        _materialsCode.Add(value.index, value);
+    }
+
     /// 직렬화된 변수들에 대한 함수 *UnityEditor
     #region Serialize Functions
 
@@ -88,7 +194,9 @@ public class FoodCollection : MonoBehaviour
         _sAllFoods.Clear();
 
         foreach (var food in _allFoods)
-            _sAllFoods.Add(food.Value.name);
+        {
+            _sAllFoods.Add(food.Value);
+        }
 #endif
     }
 
@@ -101,7 +209,7 @@ public class FoodCollection : MonoBehaviour
         _sCollectFoods.Clear();
 
         foreach (var food in _collectFoods)
-            _sCollectFoods.Add(food.Value.name);
+            _sCollectFoods.Add(food.Value);
 #endif
     }
     #endregion
@@ -109,16 +217,32 @@ public class FoodCollection : MonoBehaviour
     #endregion
 }
 
+[System.Serializable]
 public class CollectFood
 {
-    public Food food = new Food();
+    public Food food;
 
-    public int index    { get { return food.index; } set { food.index = value; } }
-    public string name  { get { return food.name; } set { food.name = value; } }
+    public string name                      { get { return food.name; } set { food.name = value; } }
+    public int index                        { get { return food.index; } set { food.index = value; } }
+    public int sellPrice                    { get { return food.sellPrice; } set { food.sellPrice = value; } }
+
+    public List<FoodMaterial> materials     { get { return food.materials; } set { food.materials = value; } }
 }
 
-public class Food
+[System.Serializable]
+public struct Food
 {
-    public int index;
     public string name;
+    public int index;
+    public int sellPrice;
+
+    public List<FoodMaterial> materials;
+}
+
+[System.Serializable]
+public struct FoodMaterial
+{
+    public string name;
+    public int index;
+    public int sellPrice;
 }

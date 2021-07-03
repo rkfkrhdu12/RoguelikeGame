@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/02.Scripts/PlayerInput.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/02.Scripts/InputSystem/PlayerInput.inputactions'
 
 using System;
 using System.Collections;
@@ -122,6 +122,33 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Any"",
+            ""id"": ""eceaf53c-2ff0-4efa-a710-e16dee29a336"",
+            ""actions"": [
+                {
+                    ""name"": ""ESC"",
+                    ""type"": ""Button"",
+                    ""id"": ""843d77bb-b262-4ca6-b104-cb6fcad2e36d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=2)""
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""83d43574-8d51-461c-af6f-2abf35e6f3d9"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ESC"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -131,6 +158,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         m_Character_X = m_Character.FindAction("X", throwIfNotFound: true);
         m_Character_Y = m_Character.FindAction("Y", throwIfNotFound: true);
         m_Character_Action = m_Character.FindAction("Action", throwIfNotFound: true);
+        // Any
+        m_Any = asset.FindActionMap("Any", throwIfNotFound: true);
+        m_Any_ESC = m_Any.FindAction("ESC", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -225,10 +255,47 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         }
     }
     public CharacterActions @Character => new CharacterActions(this);
+
+    // Any
+    private readonly InputActionMap m_Any;
+    private IAnyActions m_AnyActionsCallbackInterface;
+    private readonly InputAction m_Any_ESC;
+    public struct AnyActions
+    {
+        private @PlayerInput m_Wrapper;
+        public AnyActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ESC => m_Wrapper.m_Any_ESC;
+        public InputActionMap Get() { return m_Wrapper.m_Any; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(AnyActions set) { return set.Get(); }
+        public void SetCallbacks(IAnyActions instance)
+        {
+            if (m_Wrapper.m_AnyActionsCallbackInterface != null)
+            {
+                @ESC.started -= m_Wrapper.m_AnyActionsCallbackInterface.OnESC;
+                @ESC.performed -= m_Wrapper.m_AnyActionsCallbackInterface.OnESC;
+                @ESC.canceled -= m_Wrapper.m_AnyActionsCallbackInterface.OnESC;
+            }
+            m_Wrapper.m_AnyActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @ESC.started += instance.OnESC;
+                @ESC.performed += instance.OnESC;
+                @ESC.canceled += instance.OnESC;
+            }
+        }
+    }
+    public AnyActions @Any => new AnyActions(this);
     public interface ICharacterActions
     {
         void OnX(InputAction.CallbackContext context);
         void OnY(InputAction.CallbackContext context);
         void OnAction(InputAction.CallbackContext context);
+    }
+    public interface IAnyActions
+    {
+        void OnESC(InputAction.CallbackContext context);
     }
 }
