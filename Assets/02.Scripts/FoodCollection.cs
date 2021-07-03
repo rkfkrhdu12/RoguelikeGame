@@ -17,9 +17,7 @@ public class FoodCollection : MonoBehaviour
         }
     }
 
-    /// <summary>
     /// Inspector에 보여주기위한 데이터를 직렬화시킨 변수들 *UnityEditor
-    /// </summary>
     #region Serialize Variables
 
 #if UNITY_EDITOR
@@ -46,13 +44,15 @@ public class FoodCollection : MonoBehaviour
     Dictionary<string, CollectFood> _collectFoods = new Dictionary<string, CollectFood>();
     #endregion
 
-    /// <summary>
     /// MonoBehaviour 지원 함수
-    /// </summary>
     #region MonoBehaviour Functions
 
     void Awake()
     {
+        GameManager.Instance.FoodCollection = this;
+
+        DontDestroyOnLoad(gameObject);
+
         UnityGoogleSheet.Load<FoodCollectionSheet.Data>();
 
         foreach (var line in FoodCollectionSheet.Data.DataList)
