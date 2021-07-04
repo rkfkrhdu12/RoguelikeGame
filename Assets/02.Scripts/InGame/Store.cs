@@ -18,8 +18,10 @@ public class Store : NPC
 
     private void OnEnable()
     {
-        var buttons = _uiParent.GetComponentsInChildren<ButtonPro>();
+        if (_uiParent == null) return;
 
+        var buttons = _uiParent?.GetComponentsInChildren<ButtonPro>();
+        if (buttons == null) return;
         
     }
 }

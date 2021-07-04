@@ -31,11 +31,13 @@ namespace FoodCollectionSheet
 
 		public Int32 index;
 		public String name;
-		public Int32 sell;
+		public Int32 price;
+		public Int32 foodprice;
 		public String material0Name;
 		public String material1Name;
 		public String material2Name;
 		public String material3Name;
+		public String material4Name;
   
 
 #region fuctions

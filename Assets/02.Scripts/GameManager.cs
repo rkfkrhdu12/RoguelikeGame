@@ -5,17 +5,14 @@ using UnityEngine;
 // SingleTon
 public class GameManager
 {
-    /// <summary>
+    /// <summary>                   
     /// 음식 컬렉션
     /// </summary>
     public FoodCollection FoodCollection { get { return _foodCollection; } set { if (_foodCollection == null) { _foodCollection = value; } } }
     private FoodCollection _foodCollection = null;
 
-    /// <summary>
-    /// 입력 관련 매니저
-    /// </summary>
-    public InGameInput InGameInput { get { return _inGameInput; } set { if (_inGameInput == null) { _inGameInput = value; } } }
-    private InGameInput _inGameInput = null;
+    public InGameManager InGameManager { get { return _ingameManager; } set { if (_ingameManager == null) { _ingameManager = value; } } }
+    private InGameManager _ingameManager = null;
 
     public SceneController SceneController { get { return _sceneController; } }
     private SceneController _sceneController = null;

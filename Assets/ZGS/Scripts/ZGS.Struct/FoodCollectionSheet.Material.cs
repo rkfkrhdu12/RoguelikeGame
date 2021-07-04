@@ -31,7 +31,7 @@ namespace FoodCollectionSheet
 
 		public Int32 index;
 		public String name;
-		public Int32 sell;
+		public Int32 price;
   
 
 #region fuctions

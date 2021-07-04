@@ -79,7 +79,7 @@ public class InGameInput : MonoBehaviour
 
     void Awake()
     {
-        GameManager.Instance.InGameInput = this;
+        GetComponent<InGameManager>().InGameInput = this;
 
         if (_input == null)
         {
@@ -92,7 +92,7 @@ public class InGameInput : MonoBehaviour
         }
     }
 
-    private void OnEnable() { _input.Enable(); }
-    private void OnDisable() { _input.Disable(); }
+    private void OnEnable()     { if (_input == null) return; _input.Enable(); }
+    private void OnDisable()    { if (_input == null) return; _input.Disable(); }
     #endregion
 }

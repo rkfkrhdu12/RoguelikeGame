@@ -21,7 +21,7 @@ public class PlayerAction : MonoBehaviour
     {
         if (_inputManager == null)
         {
-            _inputManager = GameManager.Instance.InGameInput;
+            _inputManager = GameManager.Instance.InGameManager.InGameInput;
         }
     }
 

@@ -13,4 +13,13 @@ public class HungryCharacter : NPC
         
         return true;
     }
+
+    private void OnEnable()
+    {
+        if (_uiParent == null) return;
+
+        var buttons = _uiParent?.GetComponentsInChildren<ButtonPro>();
+        if (buttons == null) return;
+
+    }
 }

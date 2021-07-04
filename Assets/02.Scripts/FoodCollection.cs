@@ -104,11 +104,11 @@ public class FoodCollection : MonoBehaviour
         {
             if (_materials.ContainsKey(line.name)) continue;
 
-            FoodMaterial newData = new FoodMaterial
+            FoodMaterial newData = new FoodMaterial()
             {
                 name = line.name,
                 index = line.index,
-                sellPrice = line.sell,
+                price = line.price,
             };
 
             AddMaterial(newData);
@@ -124,11 +124,14 @@ public class FoodCollection : MonoBehaviour
         {
             if (_allFoods.ContainsKey(line.name)) continue;
 
-            CollectFood newData = new CollectFood
+            CollectFood newData = new CollectFood()
             {
+                food = new Food(),
+
                 name = line.name,
                 index = line.index,
-                sellPrice = line.sell,
+                price = line.price,
+                foodPrice = line.foodprice,
 
                 materials = new List<FoodMaterial>(),
             };
@@ -136,7 +139,8 @@ public class FoodCollection : MonoBehaviour
             if (InitFoodsMaterials(line.material0Name, newData))
                 if (InitFoodsMaterials(line.material1Name, newData))
                     if (InitFoodsMaterials(line.material2Name, newData))
-                        if (InitFoodsMaterials(line.material3Name, newData)) ;
+                        if (InitFoodsMaterials(line.material3Name, newData))
+                            if (InitFoodsMaterials(line.material4Name, newData)) { }
 
             AddAllFoods(line.name, newData);
         }
@@ -145,9 +149,15 @@ public class FoodCollection : MonoBehaviour
     /// 음식에 재료 Init
     bool InitFoodsMaterials(string matName, CollectFood newData)
     {
-        if (!string.IsNullOrWhiteSpace(matName) && _materials.ContainsKey(matName))
+        if (!string.IsNullOrWhiteSpace(matName) )
         {
-            FoodMaterial foodMaterial = _materials[matName];
+            FoodMaterial foodMaterial = null;
+            if (_materials.ContainsKey(matName))
+                foodMaterial = _materials[matName];
+            else if (_allFoods.ContainsKey(matName))
+                foodMaterial = _allFoods[matName].food;
+            else return false;
+
             newData.materials.Add(foodMaterial);
 
             return true;
@@ -224,25 +234,23 @@ public class CollectFood
 
     public string name                      { get { return food.name; } set { food.name = value; } }
     public int index                        { get { return food.index; } set { food.index = value; } }
-    public int sellPrice                    { get { return food.sellPrice; } set { food.sellPrice = value; } }
+    public int price                        { get { return food.price; } set { food.price = value; } }
+    public int foodPrice                    { get { return food.foodPrice; } set { food.foodPrice = value; } }
 
     public List<FoodMaterial> materials     { get { return food.materials; } set { food.materials = value; } }
 }
 
 [System.Serializable]
-public struct Food
+public class Food : FoodMaterial
 {
-    public string name;
-    public int index;
-    public int sellPrice;
-
     public List<FoodMaterial> materials;
 }
 
 [System.Serializable]
-public struct FoodMaterial
+public class FoodMaterial
 {
     public string name;
     public int index;
-    public int sellPrice;
+    public int price;
+    public int foodPrice;
 }

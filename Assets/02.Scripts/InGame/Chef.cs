@@ -13,4 +13,25 @@ public class Chef : NPC
 
         return true;
     }
+
+    FoodCollection _foodCollection;
+
+    private void OnEnable()
+    {
+        if (_uiParent == null) return;
+
+        if (_foodCollection == null)
+            _foodCollection = GameManager.Instance.FoodCollection;
+
+        var buttons = _uiParent?.GetComponentsInChildren<ButtonPro>();
+        if (buttons == null) return;
+
+        Dictionary<int, CollectFood> collectFoods = _foodCollection.CollectFoodsCode;
+
+        for (int i = 0; i < Mathf.Min(buttons.Length, collectFoods.Count); ++i)
+        {
+
+        }
+
+    }
 }

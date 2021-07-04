@@ -11,7 +11,7 @@ public class NPC : MonoBehaviour
     {
         if (!_isAction) return false;
 
-        GameManager.Instance.InGameInput.ChangeUIMode();
+        _inputManager.ChangeUIMode();
         _isAction = false;
         _isActive = true;
 
@@ -52,6 +52,9 @@ public class NPC : MonoBehaviour
     {
         gameObject.tag = "NPC";
 
+        if (_uiParent == null)
+            Debug.LogErrorFormat(gameObject.name + " is UI is Null");
+
         _uiParent?.SetActive(false);
     }
 
@@ -59,7 +62,7 @@ public class NPC : MonoBehaviour
     {
         if (_inputManager == null)
         {
-            _inputManager = GameManager.Instance.InGameInput;
+            _inputManager = GameManager.Instance.InGameManager.InGameInput;
         }
     }
 
