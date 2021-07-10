@@ -72,24 +72,10 @@ public class InGameManager : MonoBehaviour
     private InGameInput _inGameInput = null;
 
     public int CurGold { get { return _inventory.CurGold; } }
-    public Dictionary<Food, int> FoodList { get { return Inventory.FoodList; }}
-    public Dictionary<FoodMaterial, int> FoodMaterialList { get { return Inventory.FoodmaterialList; } }
-
-    /// <summary>
-    /// Inventory의 음식과 음식재료를 참조형태로 데이터를 연동시킴(포인터)
-    /// </summary>
-    public InventoryData Inventory;
-    public struct InventoryData
-    {
-        public Dictionary<Food, int> FoodList;
-        public Dictionary<FoodMaterial, int> FoodmaterialList;
-
-        public void Init(ref Dictionary<Food, int> foodList, ref Dictionary<FoodMaterial, int> foodmaterialList)
-        {
-            if (FoodList == null)           FoodList = foodList;
-            if (FoodmaterialList == null)   FoodmaterialList = foodmaterialList;
-        }
-    }
+    public Dictionary<Food, int> FoodList { get { return _inventory.FoodList; }}
+    public ref Dictionary<Food, int> GetFoodList() { return ref _inventory.GetFoodList(); }
+    public Dictionary<FoodMaterial, int> FoodMaterialList { get { return _inventory.FoodmaterialList; } }
+    public ref Dictionary<FoodMaterial, int> GetFoodMaterialList() { return ref _inventory.GetFoodMaterialList(); }
 
     Inventory _inventory = null;
     #endregion
@@ -111,6 +97,7 @@ public class InGameManager : MonoBehaviour
     private void Start()
     {
         FoodCollection foodCollection = GameManager.Instance.FoodCollection;
+        if (foodCollection == null) return;
 
         Buy(foodCollection.FoodMaterialsCode[0]);
         Buy(foodCollection.FoodMaterialsCode[0]);

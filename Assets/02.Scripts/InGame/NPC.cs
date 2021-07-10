@@ -55,7 +55,8 @@ public class NPC : MonoBehaviour
         if (_uiParent == null)
             Debug.LogErrorFormat(gameObject.name + " is UI is Null");
 
-        _uiParent?.SetActive(false);
+        if (_uiParent.activeSelf)
+            _uiParent?.SetActive(false);
     }
 
     protected void Start()
@@ -94,5 +95,14 @@ public class NPC : MonoBehaviour
         }
 
     }
+    #endregion
+
+    #region Protected Function
+
+    protected void AddItemSlot(string itemName)
+    {
+
+    }
+
     #endregion
 }

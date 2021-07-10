@@ -14,7 +14,13 @@ public class Chef : NPC
         return true;
     }
 
+    #region Variable
+
     FoodCollection _foodCollection;
+
+    #endregion
+    
+    #region Monobehaivour Function
 
     private void OnEnable()
     {
@@ -22,16 +28,14 @@ public class Chef : NPC
 
         if (_foodCollection == null)
             _foodCollection = GameManager.Instance.FoodCollection;
-
-        var buttons = _uiParent?.GetComponentsInChildren<ButtonPro>();
-        if (buttons == null) return;
+        if (_foodCollection == null) return;
 
         Dictionary<int, CollectFood> collectFoods = _foodCollection.CollectFoodsCode;
 
-        for (int i = 0; i < Mathf.Min(buttons.Length, collectFoods.Count); ++i)
+        for (int i = 0; i < collectFoods.Count; ++i)
         {
-
+            AddItemSlot(collectFoods[i].name);
         }
-
-    }
+    } 
+    #endregion
 }

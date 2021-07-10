@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Inventory
 {
+    /// <summary>
+    /// InitData 음식 리스트
+    /// </summary>
     public void Awake()
     {
         if (_ingameManager == null)
@@ -14,9 +17,6 @@ public class Inventory
 
         if (_foodmaterialList == null)
             _foodmaterialList = new Dictionary<FoodMaterial, int>();
-
-        _ingameManager.Inventory = new InGameManager.InventoryData();
-        _ingameManager.Inventory.Init(ref _foodList, ref _foodmaterialList);
 
         //////////////
         AddGold(17);
@@ -87,8 +87,12 @@ public class Inventory
     InGameManager _ingameManager = null;
 
     Dictionary<Food, int> _foodList = null;
+    public Dictionary<Food, int> FoodList { get { return _foodList; } }
+    public ref Dictionary<Food, int> GetFoodList() { return ref _foodList; }
 
     Dictionary<FoodMaterial, int> _foodmaterialList = null;
+    public Dictionary<FoodMaterial, int> FoodmaterialList { get { return _foodmaterialList; } }
+    public ref Dictionary<FoodMaterial, int> GetFoodMaterialList() { return ref _foodmaterialList; }
 
     int _curGold = 0; 
     public int CurGold { get { return _curGold; } }

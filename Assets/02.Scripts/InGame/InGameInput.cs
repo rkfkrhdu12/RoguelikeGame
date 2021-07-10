@@ -12,6 +12,9 @@ public class InGameInput : MonoBehaviour
     /// <summary> 현재 Input작동할 모드 </summary>
     public eInputMode CurMode { get { return _curMode; } }
 
+    public Vector2 MouseMoveDelta { get { return _mouseMoveDelta; } }
+    public Vector2 MousePosition { get { return _mousePosition; } }
+
     /// <summary> 현재 작동할 모드를 UI모드로 바꿈 </summary>
     public void ChangeUIMode() { _curMode = eInputMode.UIMode; }
     /// <summary> 현재 작동할 모드를 캐릭터모드로 바꿈 </summary>
@@ -45,6 +48,16 @@ public class InGameInput : MonoBehaviour
                 break;
         }
     }
+
+    public void InputTouchPointDelta(InputAction.CallbackContext context)
+    {
+        _mouseMoveDelta = context.ReadValue<Vector2>();
+    }
+
+    public void InputTouchPosition(InputAction.CallbackContext context)
+    {
+        _mousePosition = context.ReadValue<Vector2>();
+    }
     #endregion
 
     /// 일반 변수들
@@ -72,6 +85,9 @@ public class InGameInput : MonoBehaviour
     private Vector2 _moveAxis = Vector2.zero;
     [SerializeField, Header("상호작용 버튼의 상태")]
     private bool _isAction = false;
+
+    private Vector2 _mouseMoveDelta = Vector2.zero;
+    private Vector2 _mousePosition = Vector2.zero;
     #endregion
 
     /// MonoBehaviour 지원 함수
@@ -89,6 +105,9 @@ public class InGameInput : MonoBehaviour
 
             _input.Character.Action.performed += val => InputAction(val);
             _input.Any.ESC.performed += val => InputEscape(val);
+
+            _input.Any.TouchPointDelta.performed += val => InputTouchPointDelta(val);
+            _input.Any.TouchPoint.performed += val => InputTouchPosition(val);
         }
     }
 
