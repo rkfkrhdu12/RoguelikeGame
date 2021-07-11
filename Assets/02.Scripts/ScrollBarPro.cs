@@ -6,7 +6,14 @@ public class ScrollBarPro : MonoBehaviour
 {
     InGameInput _inputManager = null;
 
-    [SerializeField] RectTransform _scrollObjectTransform = null;
+    [SerializeField] RectTransform _rectTransform = null;
+    UnityEngine.UI.GridLayoutGroup _listGridLayout = null;
+
+    Vector2 layoutSize = Vector2.zero;
+    Vector2 cellSize = Vector2.zero;
+    int maxScreenCount = 0;
+    int rowMaxCount = 0;
+    int columnMaxCount = 0;
 
     bool _isDragMode = false;
     bool _isLerpStart = false;
@@ -14,7 +21,6 @@ public class ScrollBarPro : MonoBehaviour
 
     public void OnDragStart()
     {
-        Debug.Log("DragMode On");
         _isDragMode = true;
     }
 
@@ -22,21 +28,18 @@ public class ScrollBarPro : MonoBehaviour
     {
         _isDragMode = false;
 
-        RectTransform[] itemList = _scrollObjectTransform.GetComponentsInChildren<RectTransform>();
-        RectTransform lastItemObjectTransform = itemList[_scrollObjectTransform.childCount - 1];
+        // Position Y Lerp Check
 
-        float lastItemObjectPositionY = lastItemObjectTransform.localPosition.y;
-        float lastItemObjectHeight = lastItemObjectTransform.sizeDelta.y;
-
+        int childCount = _rectTransform.childCount;
+        if (maxScreenCount >= childCount) return;
+        
         float minY = 0.0f;
-        float maxY = -(lastItemObjectPositionY - lastItemObjectHeight / 2);
+        float maxY = Mathf.Ceil((childCount - maxScreenCount) / (float)columnMaxCount) * cellSize.y;
 
-        Debug.Log("MaxY : " + maxY);
-
-        Vector3 correctPosition = _scrollObjectTransform.localPosition;
+        Vector3 correctPosition = _rectTransform.localPosition;
         correctPosition.y = Mathf.Clamp(correctPosition.y, minY, maxY);
 
-        if (Vector3.Distance(correctPosition, _scrollObjectTransform.localPosition) >= .5)
+        if (Vector3.Distance(correctPosition, _rectTransform.localPosition) >= .5)
         {
             _isLerpStart = true;
             _lerpPosition = correctPosition;
@@ -47,11 +50,24 @@ public class ScrollBarPro : MonoBehaviour
     {
         if (_inputManager == null)
             _inputManager = GameManager.Instance.InGameManager.InGameInput;
+
+        if (_rectTransform != null)
+            _listGridLayout = _rectTransform.GetComponent<UnityEngine.UI.GridLayoutGroup>();
+
+        if (_listGridLayout != null)
+        {
+            layoutSize = _rectTransform.sizeDelta;
+            cellSize = _listGridLayout.cellSize;
+
+            rowMaxCount = (int)(layoutSize.y / cellSize.y);
+            columnMaxCount = (int)(layoutSize.x / cellSize.x);
+            maxScreenCount = rowMaxCount * columnMaxCount;
+        }
     }
 
     private void LateUpdate()
     {
-        if (_scrollObjectTransform == null ||
+        if (_rectTransform == null ||
             _inputManager == null)
             return;
 
@@ -59,18 +75,16 @@ public class ScrollBarPro : MonoBehaviour
         {
             float mouseMoveDeltaY = _inputManager.MouseMoveDelta.y;
 
-            Vector3 movePosition = _scrollObjectTransform.localPosition;
+            Vector3 movePosition = _rectTransform.localPosition;
             movePosition.y += mouseMoveDeltaY;
-            _scrollObjectTransform.localPosition = movePosition;
-
-            // Debug.Log(movePosition.y);
+            _rectTransform.localPosition = movePosition;
         }
 
         if (_isLerpStart)
         {
-            _scrollObjectTransform.localPosition = Vector3.Lerp(_scrollObjectTransform.localPosition, _lerpPosition, Time.deltaTime * 4.0f);
+            _rectTransform.localPosition = Vector3.Lerp(_rectTransform.localPosition, _lerpPosition, Time.deltaTime * 4.0f);
 
-            if (Vector3.Distance(_scrollObjectTransform.localPosition, _lerpPosition) < .5)
+            if (Vector3.Distance(_rectTransform.localPosition, _lerpPosition) < .5)
             {
                 _isLerpStart = false;
             }

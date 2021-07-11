@@ -123,15 +123,7 @@
                     "interactions": "Press(behavior=2)"
                 },
                 {
-                    "name": "Touch",
-                    "type": "Button",
-                    "id": "349bf183-af5d-466c-8a71-478d3151502d",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Press(behavior=2)"
-                },
-                {
-                    "name": "TouchPointDelta",
+                    "name": "MouseMoveDelta",
                     "type": "Value",
                     "id": "edc435d9-b305-4ec0-9e9f-b33fbb280afe",
                     "expectedControlType": "Vector2",
@@ -139,10 +131,18 @@
                     "interactions": "Press(behavior=2)"
                 },
                 {
-                    "name": "TouchPoint",
-                    "type": "Value",
-                    "id": "bb0904c4-67f3-4ed8-9f8a-29a3fe016135",
-                    "expectedControlType": "Vector2",
+                    "name": "MouseLeftDown",
+                    "type": "Button",
+                    "id": "47c8c219-6f48-491f-9e58-7509e22495da",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "MouseLeftUp",
+                    "type": "Button",
+                    "id": "7db8e8e2-dbad-4956-b811-c4c204162b34",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press(behavior=2)"
                 }
@@ -161,34 +161,12 @@
                 },
                 {
                     "name": "",
-                    "id": "b55c5335-7a24-4484-9da7-733736743138",
-                    "path": "<Touchscreen>/press",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Touch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "f326771e-1f52-4f49-a2d2-69c7dab47ad1",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Touch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "6b701c16-44e5-4bcc-9f09-a5ddfd3aa267",
                     "path": "<Mouse>/delta",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "TouchPointDelta",
+                    "action": "MouseMoveDelta",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -199,29 +177,29 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "TouchPointDelta",
+                    "action": "MouseMoveDelta",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "61fbd068-f75f-45a4-8644-c096742e7200",
-                    "path": "<Mouse>/position",
-                    "interactions": "",
+                    "id": "fc33841d-e41b-412b-8771-b278f24945e9",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "",
-                    "action": "TouchPoint",
+                    "action": "MouseLeftDown",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "85cb9704-c43e-4e99-9ab0-9cee427a2386",
-                    "path": "<Touchscreen>/position",
-                    "interactions": "",
+                    "id": "4b3f349a-0477-42c9-8791-54751d67918a",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Press(behavior=1)",
                     "processors": "",
                     "groups": "",
-                    "action": "TouchPoint",
+                    "action": "MouseLeftUp",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

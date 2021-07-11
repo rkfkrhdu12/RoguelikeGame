@@ -74,8 +74,8 @@ public class InGameManager : MonoBehaviour
     public int CurGold { get { return _inventory.CurGold; } }
     public Dictionary<Food, int> FoodList { get { return _inventory.FoodList; }}
     public ref Dictionary<Food, int> GetFoodList() { return ref _inventory.GetFoodList(); }
-    public Dictionary<FoodMaterial, int> FoodMaterialList { get { return _inventory.FoodmaterialList; } }
-    public ref Dictionary<FoodMaterial, int> GetFoodMaterialList() { return ref _inventory.GetFoodMaterialList(); }
+    public List<Inventory.ItemFoodMaterial> FoodMaterialList { get { return _inventory.FoodmaterialList; } }
+    public ref  List<Inventory.ItemFoodMaterial> GetFoodMaterialList() { return ref _inventory.GetFoodMaterialList(); }
 
     Inventory _inventory = null;
     #endregion

@@ -14,6 +14,7 @@ public class InGameInput : MonoBehaviour
 
     public Vector2 MouseMoveDelta { get { return _mouseMoveDelta; } }
     public Vector2 MousePosition { get { return _mousePosition; } }
+    // public bool IsLeftMouseButtonDown { get { return _isLeftMouseButtonDown; } }
 
     /// <summary> 현재 작동할 모드를 UI모드로 바꿈 </summary>
     public void ChangeUIMode() { _curMode = eInputMode.UIMode; }
@@ -23,19 +24,9 @@ public class InGameInput : MonoBehaviour
     /// 람다식으로 사용되는 함수
     #region LambdaExp
 
-    public void UpdateMoveX(InputAction.CallbackContext context)
-    {
-        _moveAxis.x = context.ReadValue<float>();
-    }
-    public void UpdateMoveY(InputAction.CallbackContext context)
-    {
-        _moveAxis.y = context.ReadValue<float>();
-    }
-
-    public void InputAction(InputAction.CallbackContext context)
-    {
-        _isAction = Mathf.Approximately(context.ReadValue<float>(), 1.0f);
-    }
+    public void UpdateMoveX(InputAction.CallbackContext context) { _moveAxis.x = context.ReadValue<float>(); }
+    public void UpdateMoveY(InputAction.CallbackContext context) { _moveAxis.y = context.ReadValue<float>(); }
+    public void InputAction(InputAction.CallbackContext context) { _isAction = Mathf.Approximately(context.ReadValue<float>(), 1.0f); }
 
     public void InputEscape(InputAction.CallbackContext context)
     {
@@ -44,20 +35,12 @@ public class InGameInput : MonoBehaviour
             case eInputMode.UIMode:
                 ChangeCharMode();
                 break;
-            default:
-                break;
         }
     }
 
-    public void InputTouchPointDelta(InputAction.CallbackContext context)
-    {
-        _mouseMoveDelta = context.ReadValue<Vector2>();
-    }
+    public void InputMouseMoveDelta(InputAction.CallbackContext context)    { _mouseMoveDelta = context.ReadValue<Vector2>(); }
+    public void InputMousePosition(InputAction.CallbackContext context)     { _mousePosition = Mouse.current.position.ReadValue(); }
 
-    public void InputTouchPosition(InputAction.CallbackContext context)
-    {
-        _mousePosition = context.ReadValue<Vector2>();
-    }
     #endregion
 
     /// 일반 변수들
@@ -86,7 +69,9 @@ public class InGameInput : MonoBehaviour
     [SerializeField, Header("상호작용 버튼의 상태")]
     private bool _isAction = false;
 
+    [SerializeField, Header("현재 마우스 움직임의 Delta")]
     private Vector2 _mouseMoveDelta = Vector2.zero;
+    [SerializeField, Header("현재 마우스 좌표")]
     private Vector2 _mousePosition = Vector2.zero;
     #endregion
 
@@ -106,8 +91,9 @@ public class InGameInput : MonoBehaviour
             _input.Character.Action.performed += val => InputAction(val);
             _input.Any.ESC.performed += val => InputEscape(val);
 
-            _input.Any.TouchPointDelta.performed += val => InputTouchPointDelta(val);
-            _input.Any.TouchPoint.performed += val => InputTouchPosition(val);
+            _input.Any.MouseMoveDelta.performed += val => InputMouseMoveDelta(val);
+            _input.Any.MouseLeftDown.performed += val => InputMousePosition(val);
+            _input.Any.MouseLeftUp.performed += val => InputMousePosition(val);
         }
     }
 

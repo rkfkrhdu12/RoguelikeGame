@@ -136,15 +136,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""interactions"": ""Press(behavior=2)""
                 },
                 {
-                    ""name"": ""Touch"",
-                    ""type"": ""Button"",
-                    ""id"": ""349bf183-af5d-466c-8a71-478d3151502d"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": ""Press(behavior=2)""
-                },
-                {
-                    ""name"": ""TouchPointDelta"",
+                    ""name"": ""MouseMoveDelta"",
                     ""type"": ""Value"",
                     ""id"": ""edc435d9-b305-4ec0-9e9f-b33fbb280afe"",
                     ""expectedControlType"": ""Vector2"",
@@ -152,10 +144,18 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""interactions"": ""Press(behavior=2)""
                 },
                 {
-                    ""name"": ""TouchPoint"",
-                    ""type"": ""Value"",
-                    ""id"": ""bb0904c4-67f3-4ed8-9f8a-29a3fe016135"",
-                    ""expectedControlType"": ""Vector2"",
+                    ""name"": ""MouseLeftDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""47c8c219-6f48-491f-9e58-7509e22495da"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=2)""
+                },
+                {
+                    ""name"": ""MouseLeftUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""7db8e8e2-dbad-4956-b811-c4c204162b34"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=2)""
                 }
@@ -174,34 +174,12 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""b55c5335-7a24-4484-9da7-733736743138"",
-                    ""path"": ""<Touchscreen>/press"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Touch"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""f326771e-1f52-4f49-a2d2-69c7dab47ad1"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Touch"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""6b701c16-44e5-4bcc-9f09-a5ddfd3aa267"",
                     ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""TouchPointDelta"",
+                    ""action"": ""MouseMoveDelta"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -212,29 +190,29 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""TouchPointDelta"",
+                    ""action"": ""MouseMoveDelta"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""61fbd068-f75f-45a4-8644-c096742e7200"",
-                    ""path"": ""<Mouse>/position"",
-                    ""interactions"": """",
+                    ""id"": ""fc33841d-e41b-412b-8771-b278f24945e9"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""TouchPoint"",
+                    ""action"": ""MouseLeftDown"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""85cb9704-c43e-4e99-9ab0-9cee427a2386"",
-                    ""path"": ""<Touchscreen>/position"",
-                    ""interactions"": """",
+                    ""id"": ""4b3f349a-0477-42c9-8791-54751d67918a"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Press(behavior=1)"",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""TouchPoint"",
+                    ""action"": ""MouseLeftUp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -251,9 +229,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         // Any
         m_Any = asset.FindActionMap("Any", throwIfNotFound: true);
         m_Any_ESC = m_Any.FindAction("ESC", throwIfNotFound: true);
-        m_Any_Touch = m_Any.FindAction("Touch", throwIfNotFound: true);
-        m_Any_TouchPointDelta = m_Any.FindAction("TouchPointDelta", throwIfNotFound: true);
-        m_Any_TouchPoint = m_Any.FindAction("TouchPoint", throwIfNotFound: true);
+        m_Any_MouseMoveDelta = m_Any.FindAction("MouseMoveDelta", throwIfNotFound: true);
+        m_Any_MouseLeftDown = m_Any.FindAction("MouseLeftDown", throwIfNotFound: true);
+        m_Any_MouseLeftUp = m_Any.FindAction("MouseLeftUp", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -353,17 +331,17 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Any;
     private IAnyActions m_AnyActionsCallbackInterface;
     private readonly InputAction m_Any_ESC;
-    private readonly InputAction m_Any_Touch;
-    private readonly InputAction m_Any_TouchPointDelta;
-    private readonly InputAction m_Any_TouchPoint;
+    private readonly InputAction m_Any_MouseMoveDelta;
+    private readonly InputAction m_Any_MouseLeftDown;
+    private readonly InputAction m_Any_MouseLeftUp;
     public struct AnyActions
     {
         private @PlayerInput m_Wrapper;
         public AnyActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @ESC => m_Wrapper.m_Any_ESC;
-        public InputAction @Touch => m_Wrapper.m_Any_Touch;
-        public InputAction @TouchPointDelta => m_Wrapper.m_Any_TouchPointDelta;
-        public InputAction @TouchPoint => m_Wrapper.m_Any_TouchPoint;
+        public InputAction @MouseMoveDelta => m_Wrapper.m_Any_MouseMoveDelta;
+        public InputAction @MouseLeftDown => m_Wrapper.m_Any_MouseLeftDown;
+        public InputAction @MouseLeftUp => m_Wrapper.m_Any_MouseLeftUp;
         public InputActionMap Get() { return m_Wrapper.m_Any; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -376,15 +354,15 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @ESC.started -= m_Wrapper.m_AnyActionsCallbackInterface.OnESC;
                 @ESC.performed -= m_Wrapper.m_AnyActionsCallbackInterface.OnESC;
                 @ESC.canceled -= m_Wrapper.m_AnyActionsCallbackInterface.OnESC;
-                @Touch.started -= m_Wrapper.m_AnyActionsCallbackInterface.OnTouch;
-                @Touch.performed -= m_Wrapper.m_AnyActionsCallbackInterface.OnTouch;
-                @Touch.canceled -= m_Wrapper.m_AnyActionsCallbackInterface.OnTouch;
-                @TouchPointDelta.started -= m_Wrapper.m_AnyActionsCallbackInterface.OnTouchPointDelta;
-                @TouchPointDelta.performed -= m_Wrapper.m_AnyActionsCallbackInterface.OnTouchPointDelta;
-                @TouchPointDelta.canceled -= m_Wrapper.m_AnyActionsCallbackInterface.OnTouchPointDelta;
-                @TouchPoint.started -= m_Wrapper.m_AnyActionsCallbackInterface.OnTouchPoint;
-                @TouchPoint.performed -= m_Wrapper.m_AnyActionsCallbackInterface.OnTouchPoint;
-                @TouchPoint.canceled -= m_Wrapper.m_AnyActionsCallbackInterface.OnTouchPoint;
+                @MouseMoveDelta.started -= m_Wrapper.m_AnyActionsCallbackInterface.OnMouseMoveDelta;
+                @MouseMoveDelta.performed -= m_Wrapper.m_AnyActionsCallbackInterface.OnMouseMoveDelta;
+                @MouseMoveDelta.canceled -= m_Wrapper.m_AnyActionsCallbackInterface.OnMouseMoveDelta;
+                @MouseLeftDown.started -= m_Wrapper.m_AnyActionsCallbackInterface.OnMouseLeftDown;
+                @MouseLeftDown.performed -= m_Wrapper.m_AnyActionsCallbackInterface.OnMouseLeftDown;
+                @MouseLeftDown.canceled -= m_Wrapper.m_AnyActionsCallbackInterface.OnMouseLeftDown;
+                @MouseLeftUp.started -= m_Wrapper.m_AnyActionsCallbackInterface.OnMouseLeftUp;
+                @MouseLeftUp.performed -= m_Wrapper.m_AnyActionsCallbackInterface.OnMouseLeftUp;
+                @MouseLeftUp.canceled -= m_Wrapper.m_AnyActionsCallbackInterface.OnMouseLeftUp;
             }
             m_Wrapper.m_AnyActionsCallbackInterface = instance;
             if (instance != null)
@@ -392,15 +370,15 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @ESC.started += instance.OnESC;
                 @ESC.performed += instance.OnESC;
                 @ESC.canceled += instance.OnESC;
-                @Touch.started += instance.OnTouch;
-                @Touch.performed += instance.OnTouch;
-                @Touch.canceled += instance.OnTouch;
-                @TouchPointDelta.started += instance.OnTouchPointDelta;
-                @TouchPointDelta.performed += instance.OnTouchPointDelta;
-                @TouchPointDelta.canceled += instance.OnTouchPointDelta;
-                @TouchPoint.started += instance.OnTouchPoint;
-                @TouchPoint.performed += instance.OnTouchPoint;
-                @TouchPoint.canceled += instance.OnTouchPoint;
+                @MouseMoveDelta.started += instance.OnMouseMoveDelta;
+                @MouseMoveDelta.performed += instance.OnMouseMoveDelta;
+                @MouseMoveDelta.canceled += instance.OnMouseMoveDelta;
+                @MouseLeftDown.started += instance.OnMouseLeftDown;
+                @MouseLeftDown.performed += instance.OnMouseLeftDown;
+                @MouseLeftDown.canceled += instance.OnMouseLeftDown;
+                @MouseLeftUp.started += instance.OnMouseLeftUp;
+                @MouseLeftUp.performed += instance.OnMouseLeftUp;
+                @MouseLeftUp.canceled += instance.OnMouseLeftUp;
             }
         }
     }
@@ -414,8 +392,8 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     public interface IAnyActions
     {
         void OnESC(InputAction.CallbackContext context);
-        void OnTouch(InputAction.CallbackContext context);
-        void OnTouchPointDelta(InputAction.CallbackContext context);
-        void OnTouchPoint(InputAction.CallbackContext context);
+        void OnMouseMoveDelta(InputAction.CallbackContext context);
+        void OnMouseLeftDown(InputAction.CallbackContext context);
+        void OnMouseLeftUp(InputAction.CallbackContext context);
     }
 }

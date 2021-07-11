@@ -4,26 +4,35 @@ using UnityEngine;
 
 public class InventoryUI : MonoBehaviour
 {
-    public void OnUpdate()
+    public void OnUpdateFoodMaterial()
     {
-        if (_itemObjectList == null)
-            _itemObjectList = new List<GameObject>();
+        if (_foodMaterialUI == null ||
+            _foodMaterialList == null) return;
 
-
+        if (_foodMaterialList.Count != _foodMaterialUI.childCount)
+        {
+            _foodMaterialUI.OnUpdate(_foodMaterialList);
+        }
     }
 
-    public GameObject GetLastListObject() { return _itemObjectList[_itemObjectList.Count - 1]; }
-
-    private void OnEnable()
+    public void Init(ref Dictionary<Food, int> FoodList, ref List<Inventory.ItemFoodMaterial> FoodmaterialList)
     {
-        if (_itemObjectList == null)
-            _itemObjectList = new List<GameObject>();
+        _inventory.FoodList = FoodList;
+        _inventory.FoodMaterialList = FoodmaterialList;
 
-    }
+        ///////////////////////////////////////////////////////////////////////////////////
+        FoodCollection foodCollection = GameManager.Instance.FoodCollection;
+        if (foodCollection == null) return;
+        _foodList.Remove(foodCollection.CollectFoodsCode[0].food);
 
-    private void OnDisable()
-    {
-
+        foreach (var it in _foodMaterialList)
+        {
+            if (foodCollection.FoodMaterialsCode[0] == it.foodMaterial)
+            {
+                _foodMaterialList.Remove(it);
+                break;
+            }
+        }
     }
 
 
@@ -31,23 +40,11 @@ public class InventoryUI : MonoBehaviour
     struct InventoryRefData
     {
         public Dictionary<Food, int> FoodList;
-        public Dictionary<FoodMaterial, int> FoodmaterialList;
+        public List<Inventory.ItemFoodMaterial> FoodMaterialList;
     }
+
     Dictionary<Food, int> _foodList { get { return _inventory.FoodList; } }
-    Dictionary<FoodMaterial, int> _foodmaterialList { get { return _inventory.FoodmaterialList; } }
-    List<GameObject> _itemObjectList = null;
+    List<Inventory.ItemFoodMaterial> _foodMaterialList { get { return _inventory.FoodMaterialList; } }
 
-    public void Init(ref Dictionary<Food, int> FoodList, ref Dictionary<FoodMaterial, int> FoodmaterialList)
-    {
-        _inventory.FoodList = FoodList;
-        _inventory.FoodmaterialList = FoodmaterialList;
-
-        if (_itemObjectList == null)
-            _itemObjectList = new List<GameObject>();
-
-        ///////////////////////////////////////////////////////////////////////////////////
-        if (GameManager.Instance.FoodCollection == null) return;
-        _foodList.Remove(GameManager.Instance.FoodCollection.CollectFoodsCode[0].food);
-        _foodmaterialList.Remove(GameManager.Instance.FoodCollection.FoodMaterialsCode[0]);
-    }
+    [SerializeField] FoodMaterialUI _foodMaterialUI = null;
 }

@@ -11,10 +11,6 @@ public class InGameUI : MonoBehaviour
 
         if (_pauseModeOverlayUIObject != null)
             _pauseModeOverlayUIObject.SetActive(true);
-
-
-        if (_inventoryUI != null)
-            _inventoryUI.OnUpdate();
     }
 
     public void OnStart()

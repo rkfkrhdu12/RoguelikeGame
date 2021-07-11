@@ -5,32 +5,21 @@ using UnityEngine;
 public class Inventory
 {
     /// <summary>
-    /// InitData 음식 리스트
-    /// </summary>
-    public void Awake()
-    {
-        if (_ingameManager == null)
-            _ingameManager = GameManager.Instance.InGameManager;
-
-        if (_foodList == null)
-            _foodList = new Dictionary<Food, int>();
-
-        if (_foodmaterialList == null)
-            _foodmaterialList = new Dictionary<FoodMaterial, int>();
-
-        //////////////
-        AddGold(17);
-    }
-
-    /// <summary>
     /// 음식재료를 추가한다
     /// </summary>
     public void AddItem(FoodMaterial foodMaterial, int count)
     {
-        if (!_foodmaterialList.ContainsKey(foodMaterial))
-            _foodmaterialList.Add(foodMaterial, 0);
-
-        _foodmaterialList[foodMaterial] += count;
+        int index = GetIndex(foodMaterial);
+        if (index == -1)
+        {
+            ItemFoodMaterial newItem = new ItemFoodMaterial();
+            newItem.foodMaterial = foodMaterial;
+            newItem.count = count;
+        }
+        else
+        {
+            _foodMaterialList[index].count += count;
+        }
     }
 
     /// <summary>
@@ -49,12 +38,14 @@ public class Inventory
     /// </summary>
     public bool RemoveItem(FoodMaterial foodMaterial, int count)
     {
-        if (_foodmaterialList.ContainsKey(foodMaterial))
-        {
-            if (_foodmaterialList[foodMaterial] < count) return false;
+        int index = GetIndex(foodMaterial);
+        if (index == -1) return false;
 
-            _foodmaterialList[foodMaterial] -= count;
-        }
+        ItemFoodMaterial selectItem = _foodMaterialList[index];
+
+        selectItem.count -= count;
+        if (selectItem.count <= 0)
+            _foodMaterialList.RemoveAt(index);
 
         return true;
     }
@@ -82,20 +73,53 @@ public class Inventory
         _curGold = Mathf.Clamp(_curGold + gold, 0, 100000);
     }
 
+    /// <summary>
+    /// InitData 음식 리스트
+    /// </summary>
+    public void Awake()
+    {
+        if (_ingameManager == null)
+            _ingameManager = GameManager.Instance.InGameManager;
+
+        if (_foodList == null)
+            _foodList = new Dictionary<Food, int>();
+
+        if (_foodMaterialList == null)
+            _foodMaterialList = new List<ItemFoodMaterial>();
+
+        //////////////
+        AddGold(17);
+    }
+
     #region Variable
 
     InGameManager _ingameManager = null;
+
+    List<ItemFoodMaterial> _foodMaterialList = null;
+    public List<ItemFoodMaterial> FoodmaterialList { get { return _foodMaterialList; } }
+    public ref  List<ItemFoodMaterial> GetFoodMaterialList() { return ref _foodMaterialList; }
+    public class ItemFoodMaterial
+    {
+        public FoodMaterial foodMaterial;
+        public int count = 0;
+    }
 
     Dictionary<Food, int> _foodList = null;
     public Dictionary<Food, int> FoodList { get { return _foodList; } }
     public ref Dictionary<Food, int> GetFoodList() { return ref _foodList; }
 
-    Dictionary<FoodMaterial, int> _foodmaterialList = null;
-    public Dictionary<FoodMaterial, int> FoodmaterialList { get { return _foodmaterialList; } }
-    public ref Dictionary<FoodMaterial, int> GetFoodMaterialList() { return ref _foodmaterialList; }
-
     int _curGold = 0; 
     public int CurGold { get { return _curGold; } }
     #endregion
 
+    int GetIndex(FoodMaterial foodMaterial)
+    {
+        for (int i = 0; i < _foodMaterialList.Count; ++i)
+        {
+            if (_foodMaterialList[i].foodMaterial == foodMaterial)
+                return i;
+        }
+
+        return -1;
+    }
 }
