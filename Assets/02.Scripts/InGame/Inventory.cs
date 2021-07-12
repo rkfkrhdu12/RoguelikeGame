@@ -114,6 +114,8 @@ public class Inventory
 
     int GetIndex(FoodMaterial foodMaterial)
     {
+        if (_foodMaterialList.Count == 0) return 0;
+
         for (int i = 0; i < _foodMaterialList.Count; ++i)
         {
             if (_foodMaterialList[i].foodMaterial == foodMaterial)

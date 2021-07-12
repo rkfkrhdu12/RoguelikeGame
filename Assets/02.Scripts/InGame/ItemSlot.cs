@@ -26,26 +26,28 @@ public class ItemSlot : MonoBehaviour
     public void OnClick()
     {
         if (!_isAction) return;
-
         _isAction = false;
 
         if (curAction == null) return;
-
-        curAction();
+        if (FoodMaterial == null) return;
+        curAction(FoodMaterial);
     }
 
     #region Variable
 
     RectTransform _rectTransform = null;
 
-    public delegate void UIAction();
+    public delegate void UIAction(Inventory.ItemFoodMaterial foodMaterial);
     public UIAction curAction;
+    private Inventory.ItemFoodMaterial _foodMaterial = null;
+    public Inventory.ItemFoodMaterial FoodMaterial { get => _foodMaterial; set => _foodMaterial = value; }
 
     bool _isAction = true;
 
     Vector2 _prevMousePosition = Vector2.zero;
 
     InGameInput _inputManager = null;
+
 
     #endregion
 

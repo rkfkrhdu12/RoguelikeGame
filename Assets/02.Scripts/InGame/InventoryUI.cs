@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class InventoryUI : MonoBehaviour
 {
-    public void OnUpdateFoodMaterial()
+    public void OnClick(Inventory.ItemFoodMaterial foodMaterial)
     {
-        if (_foodMaterialUI == null ||
-            _foodMaterialList == null) return;
-
-        if (_foodMaterialList.Count != _foodMaterialUI.childCount)
-        {
-            _foodMaterialUI.OnUpdate(_foodMaterialList);
-        }
+        Debug.Log(foodMaterial.foodMaterial.name + "  " + foodMaterial.count);
     }
 
     public void Init(ref Dictionary<Food, int> FoodList, ref List<Inventory.ItemFoodMaterial> FoodmaterialList)
@@ -33,6 +27,8 @@ public class InventoryUI : MonoBehaviour
                 break;
             }
         }
+
+        UpdateFoodMaterial();
     }
 
 
@@ -47,4 +43,20 @@ public class InventoryUI : MonoBehaviour
     List<Inventory.ItemFoodMaterial> _foodMaterialList { get { return _inventory.FoodMaterialList; } }
 
     [SerializeField] FoodMaterialUI _foodMaterialUI = null;
+
+    private void OnEnable()
+    {
+        UpdateFoodMaterial();
+    }
+
+    void UpdateFoodMaterial()
+    {
+        if (_foodMaterialUI == null ||
+            _foodMaterialList == null) return;
+
+        if (_foodMaterialList.Count != _foodMaterialUI.childCount)
+        {
+            _foodMaterialUI.OnUpdate(_foodMaterialList, OnClick);
+        }
+    }
 }
