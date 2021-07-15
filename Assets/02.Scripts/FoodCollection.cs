@@ -22,10 +22,10 @@ public class FoodCollection : MonoBehaviour
 
 #if UNITY_EDITOR
     [SerializeField, Header("모든 음식컬렉션")]
-    List<CollectFood> _sAllFoods = new List<CollectFood>();
+    List<UIFood> _sAllFoods = new List<UIFood>();
 
     [SerializeField, Header("수집된 음식컬렉션")]
-    List<CollectFood> _sCollectFoods = new List<CollectFood>();
+    List<UIFood> _sCollectFoods = new List<UIFood>();
 #endif
     #endregion
 
@@ -35,30 +35,30 @@ public class FoodCollection : MonoBehaviour
     /// <summary>
     /// 전체 컬렉션
     /// </summary>
-    Dictionary<string, CollectFood> _allFoods = new Dictionary<string, CollectFood>();
-    Dictionary<int, CollectFood> _allFoodsCode = new Dictionary<int, CollectFood>();
+    Dictionary<string, UIFood> _allFoods = new Dictionary<string, UIFood>();
+    Dictionary<int, UIFood> _allFoodsCode = new Dictionary<int, UIFood>();
 
-    public Dictionary<string, CollectFood> AllFoods { get { return _allFoods; } }
-    public Dictionary<int, CollectFood> AllFoodsCode { get { return _allFoodsCode; } }
+    public Dictionary<string, UIFood> AllFoods { get { return _allFoods; } }
+    public Dictionary<int, UIFood> AllFoodsCode { get { return _allFoodsCode; } }
 
     /// <summary>
     /// 수집한 컬렉션
     /// </summary>
-    Dictionary<string, CollectFood> _collectFoods = new Dictionary<string, CollectFood>();
-    Dictionary<int, CollectFood> _collectFoodsCode = new Dictionary<int, CollectFood>();
+    Dictionary<string, UIFood> _collectFoods = new Dictionary<string, UIFood>();
+    Dictionary<int, UIFood> _collectFoodsCode = new Dictionary<int, UIFood>();
 
-    public Dictionary<string, CollectFood> CollectFoods { get { return _collectFoods; } }
-    public Dictionary<int, CollectFood> CollectFoodsCode { get { return _collectFoodsCode; } }
+    public Dictionary<string, UIFood> CollectFoods { get { return _collectFoods; } }
+    public Dictionary<int, UIFood> CollectFoodsCode { get { return _collectFoodsCode; } }
 
     ////////////////////////////////////////////////////////////////////////////////////////
     /// <summary>
     /// 남은 컬렉션
     /// </summary>
-    Dictionary<string, CollectFood> _remainFoods = new Dictionary<string, CollectFood>();
-    Dictionary<int, CollectFood> _remainFoodsCode = new Dictionary<int, CollectFood>();
+    Dictionary<string, UIFood> _remainFoods = new Dictionary<string, UIFood>();
+    Dictionary<int, UIFood> _remainFoodsCode = new Dictionary<int, UIFood>();
 
-    public Dictionary<string, CollectFood> RemainFoods { get { return _remainFoods; } }
-    public Dictionary<int, CollectFood> RemainFoodsCode { get { return _remainFoodsCode; } }
+    public Dictionary<string, UIFood> RemainFoods { get { return _remainFoods; } }
+    public Dictionary<int, UIFood> RemainFoodsCode { get { return _remainFoodsCode; } }
     //////////////////////////////////////////////////////////////////////////////////////////
 
     /// <summary>
@@ -100,7 +100,8 @@ public class FoodCollection : MonoBehaviour
     {
         UnityGoogleSheet.Load<FoodCollectionSheet.Material>();
 
-        foreach (var line in FoodCollectionSheet.Material.MaterialList)
+        var matList = FoodCollectionSheet.Material.MaterialList;
+        foreach (var line in matList)
         {
             if (_materials.ContainsKey(line.name)) continue;
 
@@ -124,7 +125,7 @@ public class FoodCollection : MonoBehaviour
         {
             if (_allFoods.ContainsKey(line.name)) continue;
 
-            CollectFood newData = new CollectFood()
+            UIFood newData = new UIFood()
             {
                 food = new Food(),
 
@@ -147,7 +148,7 @@ public class FoodCollection : MonoBehaviour
     }
 
     /// 음식에 재료 Init
-    bool InitFoodsMaterials(string matName, CollectFood newData)
+    bool InitFoodsMaterials(string matName, UIFood newData)
     {
         if (!string.IsNullOrWhiteSpace(matName) )
         {
@@ -166,7 +167,7 @@ public class FoodCollection : MonoBehaviour
         return false;
     }
 
-    private void AddAllFoods(string key, CollectFood value)
+    private void AddAllFoods(string key, UIFood value)
     {
         _allFoods.Add(key, value);
         AllFoodsCode.Add(value.index, value);
@@ -176,7 +177,7 @@ public class FoodCollection : MonoBehaviour
         _remainFoodsCode.Add(value.index, value);
     }
 
-    private void AddCollectFoods(string key, CollectFood value)
+    private void AddCollectFoods(string key, UIFood value)
     {
         _collectFoods.Add(key, value);
         _collectFoodsCode.Add(value.index, value);
@@ -228,7 +229,7 @@ public class FoodCollection : MonoBehaviour
 }
 
 [System.Serializable]
-public class CollectFood
+public class UIFood
 {
     public Food food;
 

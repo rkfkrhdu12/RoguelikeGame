@@ -1,0 +1,1 @@
+{"TableTypes":[0],"tableResult":{"Items":{"index : int":["0","1","2","3"],"Name : string":["Item01","Item02","Item03","Item04"],"Info : string":["String","String2","Hello","World"],"price : int":["1","2","3","4"]}},"sheetIDList":["0"],"spreadSheetID":"1fPvVVO0mvLiZ-eg4oYgDP2jXrL6u03GYq0kBRBwE-Xs","spreadSheetName":"UseItemSheet","instruction":"getTable","result":0}

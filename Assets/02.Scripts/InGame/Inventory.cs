@@ -15,6 +15,8 @@ public class Inventory
             ItemFoodMaterial newItem = new ItemFoodMaterial();
             newItem.foodMaterial = foodMaterial;
             newItem.count = count;
+
+            _foodMaterialList.Add(newItem);
         }
         else
         {
@@ -102,6 +104,8 @@ public class Inventory
     {
         public FoodMaterial foodMaterial;
         public int count = 0;
+
+        public string Name { get { return foodMaterial.name; } }
     }
 
     Dictionary<Food, int> _foodList = null;
@@ -114,7 +118,7 @@ public class Inventory
 
     int GetIndex(FoodMaterial foodMaterial)
     {
-        if (_foodMaterialList.Count == 0) return 0;
+        if (_foodMaterialList.Count == 0) return -1;
 
         for (int i = 0; i < _foodMaterialList.Count; ++i)
         {

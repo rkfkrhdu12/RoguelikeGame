@@ -30,7 +30,7 @@ public class Chef : NPC
             _foodCollection = GameManager.Instance.FoodCollection;
         if (_foodCollection == null) return;
 
-        Dictionary<int, CollectFood> collectFoods = _foodCollection.CollectFoodsCode;
+        Dictionary<int, UIFood> collectFoods = _foodCollection.CollectFoodsCode;
 
         for (int i = 0; i < collectFoods.Count; ++i)
         {

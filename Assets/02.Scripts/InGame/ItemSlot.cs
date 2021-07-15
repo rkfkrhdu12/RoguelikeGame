@@ -17,7 +17,7 @@ public class ItemSlot : MonoBehaviour
 
         float mouseDistance = Vector2.Distance(_inputManager.MousePosition, transform.position);
         float prefMouseDistance = Vector2.Distance(_inputManager.MousePosition, _prevMousePosition);
-        if (prefMouseDistance >= 12.0f || mouseDistance >= _rectTransform.sizeDelta.x / 2) 
+        if (!(prefMouseDistance >= 12.0f || mouseDistance >= _rectTransform.sizeDelta.x / 2))
         {
             _isAction = true;
         }
@@ -39,9 +39,12 @@ public class ItemSlot : MonoBehaviour
 
     public delegate void UIAction(Inventory.ItemFoodMaterial foodMaterial);
     public UIAction curAction;
+
+    [SerializeField]
     private Inventory.ItemFoodMaterial _foodMaterial = null;
     public Inventory.ItemFoodMaterial FoodMaterial { get => _foodMaterial; set => _foodMaterial = value; }
 
+    [SerializeField]
     bool _isAction = true;
 
     Vector2 _prevMousePosition = Vector2.zero;

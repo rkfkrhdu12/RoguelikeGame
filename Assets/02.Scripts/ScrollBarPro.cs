@@ -31,7 +31,16 @@ public class ScrollBarPro : MonoBehaviour
         // Position Y Lerp Check
 
         int childCount = _rectTransform.childCount;
-        if (maxScreenCount >= childCount) return;
+        if (maxScreenCount >= childCount)
+        {
+            Vector3 curXZ = _rectTransform.localPosition;
+            curXZ.y = 0;
+
+            _isLerpStart = true;
+            _lerpPosition = curXZ;
+
+            return;
+        }
         
         float minY = 0.0f;
         float maxY = Mathf.Ceil((childCount - maxScreenCount) / (float)columnMaxCount) * cellSize.y;

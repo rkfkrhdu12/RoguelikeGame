@@ -9,6 +9,7 @@ public class InGameUI : MonoBehaviour
         if (_ingameManager != null)
             _inputManager.ChangeUIMode();
 
+        _isPause = true;
         if (_pauseModeOverlayUIObject != null)
             _pauseModeOverlayUIObject.SetActive(true);
     }
@@ -17,6 +18,7 @@ public class InGameUI : MonoBehaviour
     {
         _inputManager.ChangeCharMode();
 
+        _isPause = false;
         if (_pauseModeOverlayUIObject != null)
             _pauseModeOverlayUIObject.SetActive(false);
     }
@@ -27,6 +29,8 @@ public class InGameUI : MonoBehaviour
     [SerializeField] GameObject _pauseModeOverlayUIObject = null; 
 
     [SerializeField] InventoryUI _inventoryUI = null;
+
+    bool _isPause = false;
 
     private void Start()
     {
@@ -51,4 +55,13 @@ public class InGameUI : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (!_isPause) return;
+
+        if (_inputManager.CurMode != InGameInput.eInputMode.UIMode)
+        {
+            OnStart();
+        }
+    }
 }

@@ -42,7 +42,7 @@ public class InventoryUI : MonoBehaviour
     Dictionary<Food, int> _foodList { get { return _inventory.FoodList; } }
     List<Inventory.ItemFoodMaterial> _foodMaterialList { get { return _inventory.FoodMaterialList; } }
 
-    [SerializeField] FoodMaterialUI _foodMaterialUI = null;
+    [SerializeField] ItemSlotManager _itemSlotManager = null;
 
     private void OnEnable()
     {
@@ -51,12 +51,12 @@ public class InventoryUI : MonoBehaviour
 
     void UpdateFoodMaterial()
     {
-        if (_foodMaterialUI == null ||
+        if (_itemSlotManager == null ||
             _foodMaterialList == null) return;
 
-        if (_foodMaterialList.Count != _foodMaterialUI.childCount)
+        if (_foodMaterialList.Count != _itemSlotManager.childCount)
         {
-            _foodMaterialUI.OnUpdate(_foodMaterialList, OnClick);
+            _itemSlotManager.OnUpdate(_foodMaterialList, OnClick);
         }
     }
 }
