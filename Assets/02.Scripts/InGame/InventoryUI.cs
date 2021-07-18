@@ -9,10 +9,23 @@ public class InventoryUI : MonoBehaviour
         Debug.Log(foodMaterial.foodMaterial.name + "  " + foodMaterial.count);
     }
 
+    public void OnPauseMode()
+    {
+        if (_itemSlotManager == null ||
+            _foodMaterialList == null) return;
+
+        if (_foodMaterialList.Count != _itemSlotManager.childCount)
+        {
+            _itemSlotManager.OnUpdate(_foodMaterialList, OnClick);
+        }
+    }
+
     public void Init(ref Dictionary<Food, int> FoodList, ref List<Inventory.ItemFoodMaterial> FoodmaterialList)
     {
         _inventory.FoodList = FoodList;
         _inventory.FoodMaterialList = FoodmaterialList;
+
+        #region TestCode
 
         ///////////////////////////////////////////////////////////////////////////////////
         FoodCollection foodCollection = GameManager.Instance.FoodCollection;
@@ -27,10 +40,9 @@ public class InventoryUI : MonoBehaviour
                 break;
             }
         }
-
-        UpdateFoodMaterial();
+        //////////////////////////////////////////////////////////////////////////////////// 
+        #endregion
     }
-
 
     InventoryRefData _inventory;
     struct InventoryRefData
@@ -44,19 +56,5 @@ public class InventoryUI : MonoBehaviour
 
     [SerializeField] ItemSlotManager _itemSlotManager = null;
 
-    private void OnEnable()
-    {
-        UpdateFoodMaterial();
-    }
-
-    void UpdateFoodMaterial()
-    {
-        if (_itemSlotManager == null ||
-            _foodMaterialList == null) return;
-
-        if (_foodMaterialList.Count != _itemSlotManager.childCount)
-        {
-            _itemSlotManager.OnUpdate(_foodMaterialList, OnClick);
-        }
-    }
+    
 }

@@ -170,7 +170,7 @@ public class FoodCollection : MonoBehaviour
     private void AddAllFoods(string key, UIFood value)
     {
         _allFoods.Add(key, value);
-        AllFoodsCode.Add(value.index, value);
+        _allFoodsCode.Add(value.index, value);
 
         /////////////////////////////////////////
         _remainFoods.Add(key, value);

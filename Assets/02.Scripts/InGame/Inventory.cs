@@ -111,6 +111,13 @@ public class Inventory
     Dictionary<Food, int> _foodList = null;
     public Dictionary<Food, int> FoodList { get { return _foodList; } }
     public ref Dictionary<Food, int> GetFoodList() { return ref _foodList; }
+    public class ItemFood
+    {
+        public Food food;
+        public int count = 0;
+
+        public string Name { get { return food.name; } }
+    }
 
     int _curGold = 0; 
     public int CurGold { get { return _curGold; } }
