@@ -96,22 +96,23 @@ public class InGameManager : MonoBehaviour
     /// /////////////////////////////////////////////////////////////////////
     private void Start()
     {
-        FoodCollection foodCollection = GameManager.Instance.FoodCollection;
-        if (foodCollection == null) return;
+        FoodManager foodManager = GameManager.Instance.FoodManager;
+        FoodCollector foodCollector = GameManager.Instance.FoodCollector;
+        if (foodManager == null) return;
 
-        Buy(foodCollection.FoodMaterialsCode[0]);
-        Buy(foodCollection.FoodMaterialsCode[0]);
-        Buy(foodCollection.FoodMaterialsCode[0]);
+        Buy(foodManager.FoodMaterialsCode[0]);
+        Buy(foodManager.FoodMaterialsCode[0]);
+        Buy(foodManager.FoodMaterialsCode[0]);
+            
+        Buy(foodManager.FoodMaterialsCode[1]);
+        Buy(foodManager.FoodMaterialsCode[2]);
+        Buy(foodManager.FoodMaterialsCode[3]);
 
-        Buy(foodCollection.FoodMaterialsCode[1]);
-        Buy(foodCollection.FoodMaterialsCode[2]);
-        Buy(foodCollection.FoodMaterialsCode[3]);
+        foodCollector.Collect(foodManager.FoodsCode[0].name);
+        foodCollector.Collect(foodManager.FoodsCode[1].name);
 
-        foodCollection.Collect(foodCollection.AllFoodsCode[0].name);
-        foodCollection.Collect(foodCollection.AllFoodsCode[1].name);
-
-        Buy(foodCollection.CollectFoodsCode[0].food);
-        Buy(foodCollection.CollectFoodsCode[1].food);
+        Buy(foodCollector.CollectFoodsCode[0]);
+        Buy(foodCollector.CollectFoodsCode[1]);
     }
 
     #endregion

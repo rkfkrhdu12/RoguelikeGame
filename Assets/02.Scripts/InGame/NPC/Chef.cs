@@ -16,7 +16,7 @@ public class Chef : NPC
 
     #region Variable
 
-    FoodCollection _foodCollection;
+    FoodCollector _foodCollection;
 
     #endregion
     
@@ -27,10 +27,10 @@ public class Chef : NPC
         if (_uiParent == null) return;
 
         if (_foodCollection == null)
-            _foodCollection = GameManager.Instance.FoodCollection;
+            _foodCollection = GameManager.Instance.FoodCollector;
         if (_foodCollection == null) return;
 
-        Dictionary<int, UIFood> collectFoods = _foodCollection.CollectFoodsCode;
+        Dictionary<int, Food> collectFoods = _foodCollection.CollectFoodsCode;
 
         for (int i = 0; i < collectFoods.Count; ++i)
         {

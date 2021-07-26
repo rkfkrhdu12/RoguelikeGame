@@ -24,24 +24,6 @@ public class InventoryUI : MonoBehaviour
     {
         _inventory.FoodList = FoodList;
         _inventory.FoodMaterialList = FoodmaterialList;
-
-        #region TestCode
-
-        ///////////////////////////////////////////////////////////////////////////////////
-        FoodCollection foodCollection = GameManager.Instance.FoodCollection;
-        if (foodCollection == null) return;
-        _foodList.Remove(foodCollection.CollectFoodsCode[0].food);
-
-        foreach (var it in _foodMaterialList)
-        {
-            if (foodCollection.FoodMaterialsCode[0] == it.foodMaterial)
-            {
-                _foodMaterialList.Remove(it);
-                break;
-            }
-        }
-        //////////////////////////////////////////////////////////////////////////////////// 
-        #endregion
     }
 
     InventoryRefData _inventory;
@@ -55,6 +37,4 @@ public class InventoryUI : MonoBehaviour
     List<Inventory.ItemFoodMaterial> _foodMaterialList { get { return _inventory.FoodMaterialList; } }
 
     [SerializeField] ItemSlotManager _itemSlotManager = null;
-
-    
 }

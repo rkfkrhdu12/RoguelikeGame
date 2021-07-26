@@ -93,13 +93,9 @@ public class Inventory
         AddGold(17);
     }
 
-    #region Variable
-
-    InGameManager _ingameManager = null;
-
-    List<ItemFoodMaterial> _foodMaterialList = null;
+    #region Public Variable
     public List<ItemFoodMaterial> FoodmaterialList { get { return _foodMaterialList; } }
-    public ref  List<ItemFoodMaterial> GetFoodMaterialList() { return ref _foodMaterialList; }
+    public ref List<ItemFoodMaterial> GetFoodMaterialList() { return ref _foodMaterialList; }
     public class ItemFoodMaterial
     {
         public FoodMaterial foodMaterial;
@@ -108,7 +104,6 @@ public class Inventory
         public string Name { get { return foodMaterial.name; } }
     }
 
-    Dictionary<Food, int> _foodList = null;
     public Dictionary<Food, int> FoodList { get { return _foodList; } }
     public ref Dictionary<Food, int> GetFoodList() { return ref _foodList; }
     public class ItemFood
@@ -119,8 +114,19 @@ public class Inventory
         public string Name { get { return food.name; } }
     }
 
-    int _curGold = 0; 
     public int CurGold { get { return _curGold; } }
+    #endregion
+
+
+    #region Private Variable
+
+    InGameManager _ingameManager = null;
+
+    List<ItemFoodMaterial> _foodMaterialList = null;
+
+    Dictionary<Food, int> _foodList = null;
+
+    int _curGold = 0; 
     #endregion
 
     int GetIndex(FoodMaterial foodMaterial)
