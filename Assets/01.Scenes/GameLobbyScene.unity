@@ -245,8 +245,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3f12fdb70787a14abe57501ff440f80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sAllFoods: []
-  _sCollectFoods: []
 --- !u!4 &1461420738
 Transform:
   m_ObjectHideFlags: 0
@@ -373,7 +371,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb45a48389c8c074697b56a30b232a6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isAction: 0
 --- !u!4 &2033413173
 Transform:
   m_ObjectHideFlags: 0

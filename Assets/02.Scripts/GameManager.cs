@@ -56,3 +56,17 @@ public class GameManager
     }
     #endregion
 }
+
+/// <summary>
+/// Debug.Log 의 에디터에서만 작동되게끔 처리
+/// </summary>
+public class LogManager
+{
+    static public void Log(string msg)
+    {
+        #if UNITY_EDITOR
+        Debug.Log(msg);
+        #endif
+    }
+}
+

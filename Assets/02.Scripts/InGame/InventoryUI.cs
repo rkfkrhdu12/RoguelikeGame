@@ -6,7 +6,7 @@ public class InventoryUI : MonoBehaviour
 {
     public void OnClick(Inventory.ItemFoodMaterial foodMaterial)
     {
-        Debug.Log(foodMaterial.foodMaterial.name + "  " + foodMaterial.count);
+        LogManager.Log(foodMaterial.foodMaterial.name + "  " + foodMaterial.count);
     }
 
     public void OnPauseMode()
