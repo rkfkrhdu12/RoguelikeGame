@@ -29,7 +29,12 @@ public class GameManager
     /// 씬 컨트롤러
     /// </summary>
     private SceneController _sceneController = null;        public SceneController SceneController { get { return _sceneController; } }
-   
+
+    /// <summary>
+    /// UI 메세지 매니저
+    /// </summary>
+    private UIMasageManager _uiMsgManager = null;            public UIMasageManager UIMasageManager { get { return _uiMsgManager; } }
+
     private static void Init()
     {
         _instance = new GameManager();
@@ -38,6 +43,9 @@ public class GameManager
         _instance.FoodManager = new FoodManager();
         _instance.FoodManager.Init();
         _instance.ActiveItemManager = new ActiveItemManager();
+
+        _instance._uiMsgManager = new UIMasageManager();
+        _instance._uiMsgManager.Init();
     }
 
     /// SingleTon

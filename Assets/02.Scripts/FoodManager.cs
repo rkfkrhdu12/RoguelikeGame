@@ -11,12 +11,23 @@ public class FoodManager
     }
 
     #region Public Variable
-
     public Dictionary<string, FoodMaterial> FoodMaterials { get { return _materials; } }
-    public Dictionary<int, FoodMaterial> FoodMaterialsCode { get { return _materialsCode; } }
+    public Dictionary<int, FoodMaterial> FoodMaterialsCode 
+    { 
+        get
+        { 
+            return _materialsCode; 
+        }
+    }
 
     public Dictionary<string, Food> Foods { get { return _Foods; } }
-    public Dictionary<int, Food> FoodsCode { get { return _FoodsCode; } } 
+    public Dictionary<int, Food> FoodsCode 
+    {
+        get 
+        {
+            return _FoodsCode; 
+        }
+    } 
     #endregion
 
     #region Private Variable
