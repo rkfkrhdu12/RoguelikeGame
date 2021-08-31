@@ -5,47 +5,44 @@ using UnityEngine;
 // SingleTon
 public class GameManager
 {
-    /// <summary>                   
     /// 수집된 음식 컬렉션
-    /// </summary>
-    private FoodCollector _foodCollector = null;          public FoodCollector FoodCollector { get { return _foodCollector; } set { if (_foodCollector == null) { _foodCollector = value; } } }
+    private FoodCollector _foodCollector = null;          
 
-    /// <summary>
-    /// 음식과 음식재료 데이터 매니저
-    /// </summary>
-    private FoodManager _foodManager = null;                public FoodManager FoodManager { get { return _foodManager; } set { if (_foodManager == null) { _foodManager = value; } } }
-
-    /// <summary>
     /// 액티브 아이템 데이터 매니저
-    /// </summary>
-    private ActiveItemManager _activeItemManager = null;    public ActiveItemManager ActiveItemManager { get { return _activeItemManager; } set { if (_activeItemManager == null) { _activeItemManager = value; } } }
+    private ActiveItemManager _activeItemManager = null;    
 
-    /// <summary>
     /// 인게임 데이터 매니저
-    /// </summary>
-    private InGameManager _ingameManager = null;            public InGameManager InGameManager { get { return _ingameManager; } set { if (_ingameManager == null) { _ingameManager = value; } } }
+    private InGameManager _ingameManager = null;            
 
-    /// <summary>
+    /// 음식과 음식재료 데이터 매니저
+    private FoodManager _foodManager = null;                
+
     /// 씬 컨트롤러
-    /// </summary>
-    private SceneController _sceneController = null;        public SceneController SceneController { get { return _sceneController; } }
+    private SceneController _sceneController = null;        
 
-    /// <summary>
-    /// UI 메세지 매니저
-    /// </summary>
-    private UIMasageManager _uiMsgManager = null;            public UIMasageManager UIMasageManager { get { return _uiMsgManager; } }
+    /// DB 매니저
+    private DBManager _dbManager = null;                    
+
+    #region Public Variable
+
+    public FoodCollector FoodCollector { get { return _foodCollector; } set { if (_foodCollector == null) { _foodCollector = value; } } }
+    public ActiveItemManager ActiveItemManager { get { return _activeItemManager; } set { if (_activeItemManager == null) { _activeItemManager = value; } } }
+    public InGameManager InGameManager { get { return _ingameManager; } set { if (_ingameManager == null) { _ingameManager = value; } } }
+    public FoodManager FoodManager { get { return _foodManager; } }
+    public SceneController SceneController { get { return _sceneController; } }
+    public DBManager DBManager { get { return _dbManager; } }
+    #endregion
 
     private static void Init()
     {
         _instance = new GameManager();
         _instance._sceneController = new SceneController();
 
-        _instance.FoodManager = new FoodManager();
-        _instance.FoodManager.Init();
+        _instance._foodManager = new FoodManager();
+        _instance._foodManager.Init();
         _instance.ActiveItemManager = new ActiveItemManager();
 
-        _instance._uiMsgManager = new UIMasageManager();
-        _instance._uiMsgManager.Init();
+        _instance._dbManager = new DBManager();
     }
 
     /// SingleTon

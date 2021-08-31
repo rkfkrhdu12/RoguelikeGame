@@ -15,7 +15,7 @@ public class NPC : MonoBehaviour
         _isAction = false;
         _isActive = true;
 
-        _uiParent?.SetActive(true);
+        _myUI?.SetActive(true);
 
         return true;
     }
@@ -25,9 +25,8 @@ public class NPC : MonoBehaviour
     InGameInput _inputManager = null;
 
     /// UI버튼들의 부모 오브젝트
-    [SerializeField]
-    protected GameObject _uiParent = null;
-
+    // UI를 직접 대입 하는것이 아닌 전역 클래스에서 갖고 오는 방법을 적용해야함.
+    protected GameObject _myUI = null;
 
     bool _isActive = false;
 
@@ -52,11 +51,11 @@ public class NPC : MonoBehaviour
     {
         gameObject.tag = "NPC";
 
-        if (_uiParent == null)
+        if (_myUI == null)
             Debug.LogErrorFormat(gameObject.name + " is UI is Null");
 
-        if (_uiParent.activeSelf)
-            _uiParent?.SetActive(false);
+        if (_myUI.activeSelf)
+            _myUI?.SetActive(false);
     }
 
     protected void Start()
@@ -78,7 +77,7 @@ public class NPC : MonoBehaviour
                 // 활성화가 중지 되며 UI를 종료한다.
                 _isActive = false;
 
-                _uiParent?.SetActive(false);
+                _myUI?.SetActive(false);
             }
 
             // 활성화가 중지 되었다면 true

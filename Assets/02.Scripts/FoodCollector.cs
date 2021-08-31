@@ -11,25 +11,93 @@ public class FoodCollector : MonoBehaviour
     {
         if (!_foodManager.Foods.ContainsKey(foodName)) return;
 
-        if (!_collectFoods.ContainsKey(foodName))
+        if (SearchRemainFoodName(foodName) != null)
         {
             Food collectFood = _foodManager.Foods[foodName];
 
-            _collectFoods.Add(foodName, collectFood);
-            _collectFoodsCode.Add(collectFood.index, collectFood);
+            _collectFoodList.Add(collectFood);
 
-            if (_remainFoods.ContainsKey(foodName))
-                _remainFoods.Remove(foodName);
-            if (_remainFoodsCode.ContainsKey(collectFood.index))
-                _remainFoodsCode.Remove(collectFood.index);
+            if (_remainFoodList.Contains(collectFood))
+                _remainFoodList.Remove(collectFood);
+
+            if (GameManager.Instance.DBManager != null)
+                StartCoroutine(GameManager.Instance.DBManager.FoodCollectionUpload());
+
+            LogManager.Log(collectFood.name + " is Collect");
+        }
+    }
+    public void Collect(int foodIndex)
+    {
+        if (!_foodManager.FoodsCode.ContainsKey(foodIndex)) return;
+
+        if (SearchRemainFoodIndex(foodIndex) != null)
+        {
+            Food collectFood = _foodManager.FoodsCode[foodIndex];
+
+            _collectFoodList.Add(collectFood);
+
+            if (_remainFoodList.Contains(collectFood))
+                _remainFoodList.Remove(collectFood);
+
+            if (GameManager.Instance.DBManager != null)
+                StartCoroutine(GameManager.Instance.DBManager.FoodCollectionUpload());
+
+            LogManager.Log(collectFood.name + " is Collect");
         }
     }
 
+    public Food SearchCollectFoodName(string foodName)
+    {
+        Food findFood = null;
+        foreach (var i in CollectFoodList)
+        {
+            if (i.name == foodName)
+                findFood = i;
+        }
+
+        return findFood;
+    }
+
+    public Food SearchCollectFoodIndex(int index)
+    {
+        Food findFood = null;
+        foreach (var i in CollectFoodList)
+        {
+            if (i.index == index)
+                findFood = i;
+        }
+
+        return findFood;
+    }
+
+    public Food SearchRemainFoodName(string foodName)
+    {
+        Food findFood = null;
+        foreach (var i in RemainFoodList)
+        {
+            if (i.name == foodName)
+                findFood = i;
+        }
+
+        return findFood;
+    }
+
+    public Food SearchRemainFoodIndex(int index)
+    {
+        Food findFood = null;
+        foreach (var i in RemainFoodList)
+        {
+            if (i.index == index)
+                findFood = i;
+        }
+
+        return findFood;
+    }
+
+
     #region Public Variable
-    public Dictionary<string, Food> CollectFoods { get { return _collectFoods; } }
-    public Dictionary<int, Food> CollectFoodsCode { get { return _collectFoodsCode; } }
-    public Dictionary<string, Food> RemainFoods { get { return _remainFoods; } }
-    public Dictionary<int, Food> RemainFoodsCode { get { return _remainFoodsCode; } }
+    public List<Food> CollectFoodList { get { return _collectFoodList; } }
+    public List<Food> RemainFoodList { get { return _remainFoodList; } }
     #endregion
 
     /// 일반 변수들
@@ -37,14 +105,12 @@ public class FoodCollector : MonoBehaviour
     /// <summary>
     /// 수집한 컬렉션
     /// </summary>
-    Dictionary<string, Food> _collectFoods = new Dictionary<string, Food>();   
-    Dictionary<int, Food> _collectFoodsCode = new Dictionary<int, Food>();      
+    List<Food> _collectFoodList;
 
     /// <summary>
     /// 남은 컬렉션
     /// </summary>
-    Dictionary<string, Food> _remainFoods = new Dictionary<string, Food>();     
-    Dictionary<int, Food> _remainFoodsCode = new Dictionary<int, Food>();
+    List<Food> _remainFoodList;
 
     FoodManager _foodManager = null;
 
@@ -61,7 +127,19 @@ public class FoodCollector : MonoBehaviour
 
     private void Start()
     {
+        _collectFoodList = new List<Food>();
+        _remainFoodList = new List<Food>();
+
         if (_foodManager == null) _foodManager = GameManager.Instance.FoodManager;
+        var foodcodes = _foodManager.FoodsCode;
+        for (int i = 0; i < _foodManager.Foods.Count; ++i)
+        {
+            Food curFood = foodcodes[i];
+
+            _remainFoodList.Add(curFood);
+        }
+
+        StartCoroutine(GameManager.Instance.DBManager.FoodCollectionDownload());
     }
 
     #endregion

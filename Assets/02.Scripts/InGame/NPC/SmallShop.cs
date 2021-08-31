@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Store : NPC
+public class SmallShop : NPC
 {
     /// <summary>
     /// 배고픈 NPC 와의 상호작용
@@ -20,9 +20,9 @@ public class Store : NPC
 
     private void OnEnable()
     {
-        if (_uiParent == null) return;
+        if (_myUI == null) return;
 
-        var buttons = _uiParent?.GetComponentsInChildren<ButtonPro>();
+        var buttons = _myUI?.GetComponentsInChildren<ButtonPro>();
         if (buttons == null) return;
 
     } 

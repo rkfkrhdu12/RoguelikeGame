@@ -24,13 +24,13 @@ public class Chef : NPC
 
     private void OnEnable()
     {
-        if (_uiParent == null) return;
+        if (_myUI == null) return;
 
         if (_foodCollection == null)
             _foodCollection = GameManager.Instance.FoodCollector;
         if (_foodCollection == null) return;
 
-        Dictionary<int, Food> collectFoods = _foodCollection.CollectFoodsCode;
+        List<Food> collectFoods = _foodCollection.CollectFoodList;
 
         for (int i = 0; i < collectFoods.Count; ++i)
         {

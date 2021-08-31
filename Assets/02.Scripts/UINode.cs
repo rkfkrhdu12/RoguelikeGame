@@ -7,31 +7,28 @@ public class UINodeRef
 
 public class UINode
 {
-    public UINodeRef nextNode = null;
-    public UINode prevNode = null;
+    public UINodeRef moveNode = null;
 
-    public virtual UINode Valid()
+    public virtual UINode Enable()
     {
-        return nextNode.curNode;
+        return moveNode.curNode;
     }
 
-    public virtual UINode Invalid()
+    public virtual UINode NextNodeEnable()
     {
-        return prevNode;
+        return moveNode.curNode;
     }
 
     public virtual void Start(ref UINodeRef refData)
     {
-        nextNode = refData;
+        moveNode = refData;
     }
 
     public virtual void Reset()
     {
-
     }
 
     public virtual void Update()
     {
-
     }
 }

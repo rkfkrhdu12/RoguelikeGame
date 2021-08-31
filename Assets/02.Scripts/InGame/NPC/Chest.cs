@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HungryCharacter : NPC
+public class Chest : NPC
 {
     /// <summary>
-    /// 배고픈 NPC 와의 상호작용
+    /// 
     /// </summary>
     public override bool Action()
     {
         if (!base.Action()) return false;
-        
+
         return true;
     }
 
@@ -23,6 +23,6 @@ public class HungryCharacter : NPC
         var buttons = _myUI?.GetComponentsInChildren<ButtonPro>();
         if (buttons == null) return;
 
-    } 
+    }
     #endregion
 }
